@@ -1,0 +1,56 @@
+<!-- extends表明此页面继承自 base.html 文件 -->
+{% extends "base.html" %}
+{% load staticfiles %}
+
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+    Article Detail
+{% endblock title %}
+
+<!-- 写入 base.html 中定义的 content -->
+{% block content %}
+
+    <!-- 文章详情 -->
+    <div class="container">
+        <div class="row">
+            <!-- 标题及作者 -->
+            <h1 class="col-12 mt-4 mb-4">{{ article.title }}</h1>
+            <div class="col-12 alert alert-success">Author：{{ article.author }}
+                · <a href="#" onclick="confirm_safe_delete()">Delete Article</a>
+                · <a href="{% url "article:article_update" article.id %}">Edit Article</a></div>
+            <form
+                    style="display:none;"
+                    id="safe_delete"
+                    action="{% url 'article:article_safe_delete' article.id %}"
+                    method="POST"
+            >
+                {% csrf_token %}
+                <button type="submit">Submit</button>
+            </form>
+            <!-- 文章正文 -->
+            <div class="col-12">
+                <p>{{ article.body | safe }}</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 删除文章的函数
+        function confirm_safe_delete() {
+            // 调用layer弹窗组件
+            layer.open({
+                // 弹窗标题
+                title: "Confirm delete",
+                // 正文
+                content: "Are you sure you want to delete this article? ",
+                // 点击确定按钮后调用的回调函数
+                yes: function (index, layero) {
+                    // 指定应当前往的 url
+                    $('form#safe_delete button').click();
+                    layer.close(index);
+                },
+            })
+        }
+    </script>
+
+{% endblock content %}
