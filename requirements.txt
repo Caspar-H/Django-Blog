@@ -3,7 +3,7 @@ django-password-reset==2.0
 importlib-metadata==1.6.1
 Markdown==3.2.2
 Pillow==7.1.2
-Pygments==2.6.1
+Pygments==2.7.4
 pytz==2020.1
 sqlparse==0.3.1
 zipp==3.1.0
